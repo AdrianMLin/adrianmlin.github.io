@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>To Do</title>
+</head>
+<body>
+	<h2> What shall we do, sir?</h2>
+	<p id="count_toDo">Tasks left: 0</p>
+	<input id="inputBox" type="text" placeholder="Do what 啊？">
+	
+	<ul id="ul_toDo"></ul>
+	
+	
+
+
+	<script>
+
+		//variables
+		var inputButton = document.getElementById('inputButton')
+		var ul_toDo = document.getElementById('ul_toDo')
+		
+		var count_int = 0
+
+		//eventlistener on inputBox
+		inputBox.addEventListener('keypress', function() {
+			var count_toDo = document.getElementById('count_toDo')
+			
+			var inputBox = document.getElementById('inputBox')
+			var inputValue = inputBox.value
+
+			if(event.keyCode == 13) {
+
+				//create li
+				var li_toDo = document.createElement('li')
+				li_toDo.innerText =  inputValue
+				count_int = count_int + 1
+				
+				//create checkbox
+				var li_checkbox = document.createElement('input')
+				li_checkbox.type = 'checkbox'
+
+				li_toDo.appendChild(li_checkbox)
+
+
+
+
+				//create up arrows
+				var li_up= document.createElement('a')
+				li_up.href = "#"
+				var li_arrow_up = document.createElement('img')
+				li_arrow_up.src="./arrow-up.png"
+				li_up.appendChild(li_arrow_up)
+				//append to li
+				li_toDo.appendChild(li_up)
+
+				li_up.addEventListener('click', function(event) {
+					for(i=1; i<ul_toDo.children.length; i++) { //made i==1 so it wont screw up as the 0th position
+						if(li_toDo.parentNode.children[i] == li_toDo) {
+							li_toDo.parentNode.insertBefore(li_toDo, li_toDo.parentNode.children[i-1])
+							li_toDo.parentNode.removeChild(li_up.parentNode.children[i+1])
+							
+						}
+					}
+				})
+					
+				//create down arrows
+				var li_down= document.createElement('a')
+				li_down.href = "#"
+				var li_arrow_down = document.createElement('img')
+				li_arrow_down.src="./arrow-down.png"
+				li_down.appendChild(li_arrow_down)
+				//append to li
+				li_toDo.appendChild(li_down)
+
+				li_down.addEventListener('click', function(event) {
+					for(i=0; i<ul_toDo.children.length; i++) {
+						if(li_toDo.parentNode.children[i] == li_toDo) {
+							li_toDo.parentNode.children
+
+							var li_toDo_below = li_toDo.parentNode.children[i+1]
+							li_toDo_below.parentNode.insertBefore(li_toDo_below, li_toDo)
+							li_toDo_below.parentNode.removeChild(li_toDo_below.parentNode.children[i+2])
+							//dunno why hte top two down buttons dont work
+							
+						}
+					}
+				})
+
+
+				
+
+				//add to top
+				ul_toDo.insertBefore(li_toDo, ul_toDo.children[0])
+
+
+				
+
+				li_checkbox.addEventListener('click', function(event) {
+					console.log(event);
+					if(event.target.checked == true) {
+						event.target.parentNode.style.textDecoration = "line-through"
+						
+						// reevalute count_toDo
+						count_int = count_int - 1
+						count_toDo.innerText = "Tasks left: " + count_int
+					} else if(event.target.checked == false) {
+						// reevalute count_toDo
+						count_int = count_int + 1 
+						count_toDo.innerText = "Tasks left: " + count_int
+					}
+				})
+
+
+				// reevalute count_toDo
+				count_toDo.innerText = "Tasks left: " + count_int
+				// weird, why doesn't this work on its own? i have to put in the extra reevaluations inside the event listener conditions for the count_int to update
+
+			}	
+		})
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
