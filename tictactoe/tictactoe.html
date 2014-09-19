@@ -6,6 +6,11 @@
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
+	<div id="settings">
+		<button id="sv_restart">Reset</button>
+	</div>
+
+
 	<div id="board">
 		<div class="row">
 			<div class="square"><h1></h1></div>
@@ -28,10 +33,17 @@
 	
 
 	<script>
-		var square = document.getElementsByClassName('square')
-		var playerTurn = "X"
-		for(i=0; i<square.length; i++) {
-			square[i].addEventListener('click', function(event) {
+		var squares = document.getElementsByClassName('square')
+		var buttonReset = document.getElementById('sv_restart')
+		var playerTurn = "X" //variable set, x starts
+		var board = document.getElementById('board')
+
+
+		//Setting event listeners on squares
+		for(i=0; i<squares.length; i++) {
+			squares[i].addEventListener('click', function(event) {
+
+				//making boxes fill in
 				if(event.target.children[0].innerText == "") {
 					if(playerTurn == "X") {
 						playerTurn = "O"
@@ -39,9 +51,46 @@
 						playerTurn = "X"
 					}
 					event.target.children[0].innerText = playerTurn
-				}
+				} 
 			})
 		}
+
+
+		//reset board
+		buttonReset.addEventListener('click', function(event) {
+			for(i=0; i<squares.length; i++) {
+				squares[i].children[0].innerText = ""
+			}
+		})
+
+
+
+		// //clearing the board if all filled
+		// board.addEventListener('click', function(event) {
+		// 	var boardFilled = true
+
+		// 	for(i=0; i<squares.length; i++) {
+			
+		// 		//iterate through all squares, see if any are unfilled
+		// 		if(squares[i].children[0].innerText == "") {
+		// 			boardFilled = false
+		// 		}
+		// 		console.log(boardFilled)
+
+		// 		//if they are true, set all square.h1.innerText to 0
+		// 		if(boardFilled == true) {
+		// 			for(i=0; i<squares.length; i++) {
+		// 				squares[i].children[0].innerText = ""
+		// 			}
+		// 		}
+		// 		console.log(boardFilled)
+		// 	}
+			
+		// })
+					
+			
+
+
 	</script>
 </body>
 </html>
