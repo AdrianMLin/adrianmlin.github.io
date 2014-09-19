@@ -5,8 +5,10 @@
 .square {
 	height: 100px;
 	width: 100px;
-	border: solid black 1px;
+	border: solid darkgrey 1px;
 	display: inline-block;
+	margin-left: -2px;
+	margin-right: -2px;
 }
 
 .square h1 {
@@ -17,5 +19,27 @@
 
 #board {
 	float: left;
-	border: solid black 2px;
+	border: solid darkgrey 5px;
+	border-radius: 10px;
 }
+
+
+
+
+
+
+#top {
+	width: 310px;
+	text-align: center;
+}
+
+	#title {
+		font-family: avenir;
+	}
+
+	#settings {
+		border: solid black 2px;
+		width: 307px;
+		border-radius: 10px;
+		margin-bottom: 10px;
+	}
