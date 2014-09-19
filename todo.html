@@ -60,7 +60,7 @@
 					for(i=1; i<ul_toDo.children.length; i++) { //made i==1 so it wont screw up as the 0th position
 						if(li_toDo.parentNode.children[i] == li_toDo) {
 							li_toDo.parentNode.insertBefore(li_toDo, li_toDo.parentNode.children[i-1])
-							li_toDo.parentNode.removeChild(li_up.parentNode.children[i+1])
+							// li_toDo.parentNode.removeChild(li_up.parentNode.children[i+1])
 							
 						}
 					}
@@ -75,6 +75,11 @@
 				//append to li
 				li_toDo.appendChild(li_down)
 
+				// li_down.addEventListener('click', function(event) {
+				// 	var toReplace = event.target.parentNode.nextSibling.nextSibling
+				// 	li_toDo.insertBefore(event.target.parentNode, toReplace)
+				// })
+
 				li_down.addEventListener('click', function(event) {
 					for(i=0; i<ul_toDo.children.length; i++) {
 						if(li_toDo.parentNode.children[i] == li_toDo) {
@@ -82,12 +87,13 @@
 
 							var li_toDo_below = li_toDo.parentNode.children[i+1]
 							li_toDo_below.parentNode.insertBefore(li_toDo_below, li_toDo)
-							li_toDo_below.parentNode.removeChild(li_toDo_below.parentNode.children[i+2])
-							//dunno why hte top two down buttons dont work
+							// li_toDo_below.parentNode.removeChild(li_toDo_below.parentNode.children[i+2])
+							//dunno why only last works
 							
 						}
 					}
 				})
+
 
 
 				//create delete button

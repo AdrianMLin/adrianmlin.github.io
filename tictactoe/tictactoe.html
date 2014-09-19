@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<div id="board">
+		<div class="row">
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+		</div>
+
+		<div class="row">
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+		</div>
+
+		<div class="row">
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+			<div class="square"><h1></h1></div>
+		</div>
+	</div>
+	
+
+	<script>
+		var square = document.getElementsByClassName('square')
+		var playerTurn = "X"
+		for(i=0; i<square.length; i++) {
+			square[i].addEventListener('click', function(event) {
+				if(event.target.children[0].innerText == "") {
+					if(playerTurn == "X") {
+						playerTurn = "O"
+					} else if (playerTurn == "O") {
+						playerTurn = "X"
+					}
+					event.target.children[0].innerText = playerTurn
+				}
+			})
+		}
+	</script>
+</body>
+</html>

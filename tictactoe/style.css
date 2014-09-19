@@ -1,0 +1,16 @@
+.row {
+	height: 100px;
+}
+
+.square {
+	height: 100px;
+	width: 100px;
+	border: solid black 1px;
+	display: inline-block;
+}
+
+.square h1 {
+	margin: 34%;
+	float: left;
+	font-family: avenir;
+}
