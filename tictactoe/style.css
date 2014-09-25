@@ -1,27 +1,33 @@
-.row {
-	height: 100px;
+#gamespace {
+	
 }
 
-.square {
-	height: 100px;
-	width: 100px;
-	border: solid darkgrey 1px;
-	display: inline-block;
-	margin-left: -2px;
-	margin-right: -2px;
-}
 
-.square h1 {
-	margin: 34%;
-	float: left;
-	font-family: avenir;
-}
 
 #board {
 	float: left;
 	border: solid darkgrey 5px;
 	border-radius: 10px;
 }
+	.row {
+		height: 100px;
+	}
+
+	.square {
+		height: 100px;
+		width: 100px;
+		border: solid darkgrey 1px;
+		display: inline-block;
+		margin-left: -2px;
+		margin-right: -2px;
+	}
+
+	.square h1 {
+		margin: 34%;
+		float: left;
+		font-family: avenir;
+	}
+
 
 
 

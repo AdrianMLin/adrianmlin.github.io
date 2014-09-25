@@ -6,73 +6,208 @@
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-	<div id="top">
-		<div id="title">
-			<h1>Tic-Tac-Toe</h1>
-			<h3>By Adrian M Lin</h3>
+
+	<div id="game_space">
+
+		<div id="top">
+			<div id="title">
+				<h1>Tic-Tac-Toe</h1>
+				<h3>By Adrian M Lin</h3>
+			</div>
+			<div id="settings">
+				<button id="sv_restart">Clear Board</button>
+			</div>
 		</div>
-		<div id="settings">
-			<button id="sv_restart">Clear Board</button>
+		
+
+
+		<div id="board">
+			<div class="row">
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+			</div>
+
+			<div class="row">
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+			</div>
+
+			<div class="row">
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+				<div class="square"><h1></h1></div>
+			</div>
 		</div>
+	
 	</div>
 	
-
-
-	<div id="board">
-		<div class="row">
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-		</div>
-
-		<div class="row">
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-		</div>
-
-		<div class="row">
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-			<div class="square"><h1></h1></div>
-		</div>
-	</div>
 	
 
 	<script>
-		var squares = document.getElementsByClassName('square')
-		var buttonReset = document.getElementById('sv_restart')
-		var playerTurn = "X" //variable set, x starts
-		var board = document.getElementById('board')
+		//################################//
+		//########## Variables ###########//
+		//################################//
 
+		var rows = document.getElementsByClassName('row');
+		var squares = document.getElementsByClassName('square');
+		var buttonReset = document.getElementById('sv_restart');
+		var playerTurn = "O"; //variable set, x starts
+		var board = document.getElementById('board');
+		var boardMatrix = []; //used in makeBoardMatrix()
+		makeBoardMatrix();
+
+
+
+
+
+
+
+
+
+		//################################//
+		//####### Event Listeners ########//
+		//################################//
 
 		//Setting event listeners on squares
 		for(i=0; i<squares.length; i++) {
 			squares[i].addEventListener('click', function(event) {
-
-				//making boxes fill in
-				if(event.target.children[0].innerText == "") {
-					if(playerTurn == "X") {
-						playerTurn = "O"
-					} else if (playerTurn == "O") {
-						playerTurn = "X"
-					}
-					event.target.children[0].innerText = playerTurn
-				} 
-			})
+				makeMove();
+ 
+			});
 		}
 
-
-		//reset board
+		//Setting event listener on reset board button
 		buttonReset.addEventListener('click', function(event) {
+			resetBoard();
+		})
+
+
+
+
+
+
+
+
+
+		//################################//
+		//########## Functions ###########//
+		//################################//
+
+		//create board matrix
+		function makeBoardMatrix(){
+			var rowCount = rows.length // number of rows => 3
+			var rowLength = rows[0].children.length // number of squares in row => 3
+			for(i=0; i<rowCount; i++){ //for ever row, do the following
+				var boardMatrixRow = [];
+				for(t=0; t<rowLength; t++){ //oops, used i twice so it only made one row.
+					boardMatrixRow.push("_");
+				}
+				boardMatrix.push(boardMatrixRow);
+			}
+		}
+
+		
+		//reset board
+		function resetBoard() {
 			for(i=0; i<squares.length; i++) {
 				squares[i].children[0].innerText = ""
 			}
-		})
+		}
+
+
+		//making boxes fill in
+		function makeMove() { 
+			if(event.target.children[0].innerText == "") {
+				if(playerTurn == "X") {
+					playerTurn = "O";
+				} else if (playerTurn == "O") {
+					playerTurn = "X";
+				}
+				event.target.children[0].innerText = playerTurn;
+			}
+		}
+
+
+		//win checking
+
+		// convert to 2 dimensional array
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// //win checking
+
+		// function checkWinsByRow() {
+		// 	var rows = document.getElementsByClassName('row');
+		// 	var rowLength = rows[0].children.length 
+		// 	var winlengthRequirement = 3; //this may change later
+
+		// 	console.log("checking win by rows")
+
+		// 	//
+
+
+
+
+
+
+		// 	//check each row in turn
+		// 	for(i=0; i<rowLength; i++) {
+		// 		var thisRow = rows[i]
+		// 		var win = true;
+
+		// 		//checking x win on row i
+		// 		for(i=0; i<rowLength; i++) {
+		// 			if(thisRow.children[i].children[0].innerText != "X"){
+		// 				win = false;
+		// 			}
+		// 		}
+		// 		if(win == true){
+		// 			alert('x wins!');
+		// 			resetBoard();
+		// 		}
+
+		// 	}
+		// }
+
+
+
 
 
 		//size change?
 			// this means i may need to have sass variables for my style settings
+
+
 
 
 		// //clearing the board if all filled
