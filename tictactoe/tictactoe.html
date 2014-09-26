@@ -74,9 +74,22 @@
 		for(i=0; i<squares.length; i++) {
 			squares[i].addEventListener('click', function(event) {
 				makeMove();
+				// var rowIndex = Math.floor(i/rows.length);
+				// var cellIndex = i % rows.length;
+				// boardMatrix[rowIndex][cellIndex] = squares[i].children[0].innerText;
  
 			});
 		}
+
+		// for(i=0; i<rows.length; i++){
+		// 	for(t=0; t<rows[i].length; t++){
+		// 		rows[i].children[t].addEventListener('click', function(event){
+		// 			makeMove();
+
+
+		// 		})
+		// 	}
+		// }
 
 		//Setting event listener on reset board button
 		buttonReset.addEventListener('click', function(event) {
@@ -129,8 +142,38 @@
 			}
 		}
 
+		// function updateMatrix(symbol){
+		// 	rows
+		// }
+
+		// function updateRow(symbol){
+		// 	for(i=0; i<rows.length; i++){
+		// 		rows[i]
+		// 	}
+		// }
 
 		//win checking
+
+		function checkWinRow(){
+			var winCondition = true;
+			var symbol = "@"
+
+			boardMatrix.forEach(function(row){
+				symbol = row[0]
+				for(i=0; i<row.length; i++){
+					if(row[i] != row[0] || row[i] == "_"){
+						winCondition = false;
+					}
+				}
+			})
+			alertWin(winCondition, symbol);
+		}
+
+		function alertWin(win, player){
+			if(win == true){
+				alert(player + " wins! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧*:･ﾟ✧");
+			}	
+		}
 
 		// convert to 2 dimensional array
 
