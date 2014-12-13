@@ -63,10 +63,12 @@ var PlayerListView = Backbone.View.extend({
 
 
 
-//generate player
+//BUTTON generate player button
 $('#generate-player-button').on('click', function(){
 	if ( $('#player-marker-input').val() != "" ) {
 		var playerMarker = $('#player-marker-input').val();
+
+		$('#player-marker-input').val("");
 
 		var player = new Player({marker: playerMarker});
 		players.add(player);
@@ -77,7 +79,7 @@ $('#generate-player-button').on('click', function(){
 });
 
 
-//make button create rows
+//BUTTON make button create rows
 $('#generate-board-button').on('click', function(){
 	if ( confirm('This will clear the current board. Proceed?') == true) {
 		// clears board
@@ -152,31 +154,35 @@ var SquareView = Backbone.View.extend({
 	},
 
 	mark: function(){
-		console.log(this.el)
 		var marker = '';
 		marker += '<h1>';
 		marker += 	currentPlayer;
 		marker += '</h1>';
 
-		lastPlayer = currentPlayer;
+		// make sure it's an empty square
+		if ( this.$el.html() == "" ){
 
-		// making players take turns
-		if (lastPlayer == currentPlayer){
-			console.log("fuck");
+			//setting currentPlayer to lastPlayer
+			lastPlayer = currentPlayer;
 
-			var currentPlayerIndex = markers.indexOf(currentPlayer);
+			// making players take turns (this is included so the first player can start, since no lastplayer at beginning)
+			if (lastPlayer == currentPlayer){
 
-			//make sure we don't go beyond the array
-			currentPlayer = markers[currentPlayerIndex + 1]
-			if (currentPlayer == undefined) {
-				currentPlayer = markers[0]
+				var currentPlayerIndex = markers.indexOf(currentPlayer);
+
+				//make sure we don't go beyond the array
+				currentPlayer = markers[currentPlayerIndex + 1]
+				if (currentPlayer == undefined) {
+					currentPlayer = markers[0]
+				}
+				// make sure current player information on HTML is updated
+				$('#current-player').html(currentPlayer);
 			}
-			// make sure current player information on HTML is updated
-			$('#current-player').html(currentPlayer);
+
+
+			this.$el.append(marker);
 		}
-
-
-		this.$el.append(marker);
+		
 	},
 
 	render: function(){
