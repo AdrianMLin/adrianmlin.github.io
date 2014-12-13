@@ -8,6 +8,7 @@
 	float: left;
 	border: solid darkgrey 5px;
 	border-radius: 10px;
+	margin-bottom: 3em;
 }
 	.row {
 		height: 100px;

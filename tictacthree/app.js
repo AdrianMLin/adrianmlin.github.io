@@ -10,8 +10,6 @@ var currentPlayer = "";
 
 
 
-
-
 // -* Player *-
 var Player = Backbone.Model.extend({
 	initialize: function(){
@@ -181,6 +179,8 @@ var SquareView = Backbone.View.extend({
 
 
 			this.$el.append(marker);
+
+			checkRows();
 		}
 		
 	},
@@ -189,6 +189,42 @@ var SquareView = Backbone.View.extend({
 		return this;
 	}
 });
+
+
+
+
+
+
+function checkRows(){
+	_.each( $('#board').children(), function(row){
+		var is_win = true;
+		var rowLength = $(row).children.length
+		
+
+		var checkSign = $($(row.children)[0].firstChild).html() // x
+
+		for (var i=0; i<=rowLength; i++){
+			var thisSign = $(row.children[i].firstChild).html();
+
+			if (thisSign != checkSign || checkSign == ""){
+				is_win = false;
+			}
+		}
+		// if (is_win == true && checkSign != ""){
+		// 	alert('win!');
+		// }
+
+	});
+}
+
+
+
+
+
+
+
+
+
 
 
 
