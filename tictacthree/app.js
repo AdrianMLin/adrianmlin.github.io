@@ -1,4 +1,6 @@
 
+var currentPlayer = "X"
+
 
 //make button create rows
 $('#generate-board-button').on('click', function(){
@@ -8,6 +10,11 @@ $('#generate-board-button').on('click', function(){
 
 	//checks for dimensions input
 	var dimensions = $('#generate-board-input').val();
+	if (dimensions > 13) {
+		dimensions = 13;
+		$('#generate-board-input').val(13);
+	}
+
 	console.log("dimensions: " + dimensions);
 
 	//create rows (which creates the square);
@@ -39,6 +46,8 @@ var RowView = Backbone.View.extend({
 	tagName: 'div',
 	className: 'row',
 
+
+
 	render: function(){
 		var dimensions = $('#generate-board-input').val();
 
@@ -62,6 +71,30 @@ var SquareView = Backbone.View.extend({
 	},
 	tagName: 'div',
 	className: 'square',
+
+	events: {
+		'click ':'mark'
+	},
+
+	mark: function(){
+		console.log(this.el)
+		var marker = '';
+		marker += '<h1>';
+		marker += 	currentPlayer;
+		marker += '</h1>';
+
+
+		//change this to make it multiplayer later
+		if (currentPlayer == 'X'){
+			currentPlayer = 'O';
+		} else if (currentPlayer == 'O') {
+			currentPlayer = 'X';
+		}
+
+
+		this.$el.append(marker);
+	},
+
 	render: function(){
 		return this;
 	}
