@@ -160,16 +160,19 @@ var SquareView = Backbone.View.extend({
 
 		lastPlayer = currentPlayer;
 
+		// making players take turns
 		if (lastPlayer == currentPlayer){
 			console.log("fuck");
 
 			var currentPlayerIndex = markers.indexOf(currentPlayer);
 
-			//cycle through array of players, until end then go to begining
+			//make sure we don't go beyond the array
 			currentPlayer = markers[currentPlayerIndex + 1]
 			if (currentPlayer == undefined) {
 				currentPlayer = markers[0]
 			}
+			// make sure current player information on HTML is updated
+			$('#current-player').html(currentPlayer);
 		}
 
 
@@ -180,6 +183,9 @@ var SquareView = Backbone.View.extend({
 		return this;
 	}
 });
+
+
+
 
 
 
