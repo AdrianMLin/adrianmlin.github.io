@@ -6,7 +6,9 @@ var markers = [];
 var lastPlayer = "";
 var currentPlayer = "";
 
+// -* Board *-
 
+var boardArray = [];
 
 
 
@@ -77,11 +79,12 @@ $('#generate-player-button').on('click', function(){
 });
 
 
-//BUTTON make button create rows
+//BUTTON make board Rows
 $('#generate-board-button').on('click', function(){
 	if ( confirm('This will clear the current board. Proceed?') == true) {
 		// clears board
 		$('#board').empty();
+		boardArray = [];
 
 		//checks for dimensions input
 		var dimensions = $('#generate-board-input').val();
@@ -104,6 +107,7 @@ function createRows(num){
 	for(var i=0; i<num; i++){
 		var row = new RowView({dimensions: num});
 		row.render();
+		row.el.className += " " + i //give class for later use
 
 		$('#board').append(row.el);
 	}
@@ -125,14 +129,29 @@ var RowView = Backbone.View.extend({
 
 	render: function(){
 		var dimensions = $('#generate-board-input').val();
-
 		self = this;
 
+		//boardArray
+		var boardArrayRow = [];
+		
+
 		for(var i=0; i<dimensions; i++){
+			
+			//boardArray
+			var boardArrayRowSquare = "";
+			boardArrayRow.push(boardArrayRowSquare);
+
+
+
 			var square = new SquareView({});
 			square.render();
+			square.el.className += " " + i // give classes to target later
 			self.$el.append(square.el);
 		}
+
+		//boardArray
+		boardArray.push(boardArrayRow);
+
 		return this;
 	}
 });
@@ -148,7 +167,7 @@ var SquareView = Backbone.View.extend({
 	className: 'square',
 
 	events: {
-		'click ':'mark'
+		'click':'mark'
 	},
 
 	mark: function(){
@@ -163,27 +182,43 @@ var SquareView = Backbone.View.extend({
 			//setting currentPlayer to lastPlayer
 			lastPlayer = currentPlayer;
 
-			// making players take turns (this is included so the first player can start, since no lastplayer at beginning)
-			if (lastPlayer == currentPlayer){
 
-				var currentPlayerIndex = markers.indexOf(currentPlayer);
+			var currentPlayerIndex = markers.indexOf(currentPlayer);
 
-				//make sure we don't go beyond the array
-				currentPlayer = markers[currentPlayerIndex + 1]
-				if (currentPlayer == undefined) {
-					currentPlayer = markers[0]
-				}
-				// make sure current player information on HTML is updated
-				$('#current-player').html(currentPlayer);
+			//make sure we don't go beyond the array
+			currentPlayer = markers[currentPlayerIndex + 1]
+			if (currentPlayer == undefined) {
+				currentPlayer = markers[0]
 			}
+			// make sure current player information on HTML is updated
+			$('#current-player').html(currentPlayer);
+
+
 
 
 			this.$el.append(marker);
 
-			checkRows();
+	
+			//check if you've won row-wise
+			var rowIndex = this.el.parentNode.classList[1]; //1
+			var squareIndex = this.el.classList[1]; // 0
+
+			var squareMarker = this.el.firstChild.innerHTML; // "X"
+
+			//add to the boardArray
+			boardArray[rowIndex][squareIndex] = squareMarker;
+
+			//check if row-wise WIN
+			
+			checkWinRowArray = _.without(boardArray[rowIndex], squareMarker); //if you remove all elements that are same as marker and its empty, then it means they were all the same and you win
+			if (checkWinRowArray.length == 0){
+				alert('win!');
+			}
+
 		}
 		
 	},
+
 
 	render: function(){
 		return this;
@@ -195,26 +230,34 @@ var SquareView = Backbone.View.extend({
 
 
 
-function checkRows(){
-	_.each( $('#board').children(), function(row){
-		var is_win = true;
-		var rowLength = $(row).children.length
+function checkRows(trigger){
+	console.log("FUCKING CLICKED!");
+	console.log(trigger);
+
+
+
+
+	// _.each( $('#board').children(), function(row){
 		
+	// 	var is_win = true;
+	// 	var thisRow = $(row)
+	// 	var rowLength = thisRow.children().length
+		
+	// 	var checkSign = thisRow.children()[0].innerHTML
+	// 	// var checkSign = $($(row).children().first.firstChild).html() // x
 
-		var checkSign = $($(row.children)[0].firstChild).html() // x
+	// 	for (var i=0; i<=rowLength; i++){
+	// 		var thisSign = thisRow.children()[i].innerHTML
 
-		for (var i=0; i<=rowLength; i++){
-			var thisSign = $(row.children[i].firstChild).html();
+	// 		if (thisSign != checkSign || checkSign == ""){
+	// 			is_win = false;
+	// 		}
+	// 	}
+	// 	if (is_win == true && checkSign != ""){
+	// 		alert('win!');
+	// 	}
 
-			if (thisSign != checkSign || checkSign == ""){
-				is_win = false;
-			}
-		}
-		// if (is_win == true && checkSign != ""){
-		// 	alert('win!');
-		// }
-
-	});
+	// });
 }
 
 
@@ -232,6 +275,9 @@ function checkRows(){
 
 
 //SET UP ALL THE STUFF
+
+
+
 
 	// SET UP THE INITIAL 2 PLAYERS!
 var players = new PlayerCollection({});
