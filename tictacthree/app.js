@@ -1,25 +1,34 @@
 
+
+
 var currentPlayer = "X"
+
+
+//generate player
+$('#generate-player-button').on('click', function(){
+	var player = 
+	$('#settings').append(player);
+});
 
 
 //make button create rows
 $('#generate-board-button').on('click', function(){
+	if ( confirm('This will clear the current board. Proceed?') == true) {
+		// clears board
+		$('#board').empty();
 
-	// clears board
-	$('#board').empty();
+		//checks for dimensions input
+		var dimensions = $('#generate-board-input').val();
+		if (dimensions > 13) {
+			dimensions = 13;
+			$('#generate-board-input').val(13);
+		}
 
-	//checks for dimensions input
-	var dimensions = $('#generate-board-input').val();
-	if (dimensions > 13) {
-		dimensions = 13;
-		$('#generate-board-input').val(13);
+		console.log("dimensions: " + dimensions);
+
+		//create rows (which creates the square);
+		createRows(dimensions);
 	}
-
-	console.log("dimensions: " + dimensions);
-
-	//create rows (which creates the square);
-	createRows(dimensions);
-
 
 
 });
