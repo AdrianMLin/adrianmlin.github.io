@@ -34,7 +34,15 @@ section.option {
 }
 
 
-
+#players-list {
+	border: solid black 2px;
+	width: 307px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+	#players-list ul {
+		display: inline;
+	}
 
 #top {
 	width: 310px;

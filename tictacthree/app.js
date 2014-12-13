@@ -1,13 +1,79 @@
 
 
 
-var currentPlayer = "X"
+
+var markers = [];
+var lastPlayer = "";
+var currentPlayer = "";
+
+
+
+
+
+
+
+// -* Player *-
+var Player = Backbone.Model.extend({
+	initialize: function(){
+		console.log('new player created!');
+		markers.push( this.get('marker') );
+	}
+});
+
+// -* PlayerCollection *-
+var PlayerCollection = Backbone.Collection.extend({
+	model: Player
+});
+
+
+
+// -* PlayerView *-
+var PlayerView = Backbone.View.extend({
+	initialize: function(){
+		console.log('playerview initialized');
+		this.listenTo(this.model, "remove", this.remove);
+	},
+	tagName: 'li',
+	className: 'player-view',
+	render: function(){
+		var entrails = "";
+		entrails += "<h4>";
+		entrails +=		this.model.get('marker');
+		entrails += "</h4>";
+
+		this.$el.append(entrails);
+	}
+});
+
+
+// -* PlayerListView
+var PlayerListView = Backbone.View.extend({
+	initialize: function(){
+		console.log('playerListView initialized');
+		this.listenTo(this.collection, 'add', this.addOne);
+	},
+	addOne: function(player){
+		var playerView = new PlayerView({ model: player });
+		playerView.render()
+		this.$el.append(playerView.el );
+	}
+
+});
+
+
 
 
 //generate player
 $('#generate-player-button').on('click', function(){
-	var player = 
-	$('#settings').append(player);
+	if ( $('#player-marker-input').val() != "" ) {
+		var playerMarker = $('#player-marker-input').val();
+
+		var player = new Player({marker: playerMarker});
+		players.add(player);
+	} else {
+		alert('give your player a marker!');
+	}
+
 });
 
 
@@ -92,12 +158,18 @@ var SquareView = Backbone.View.extend({
 		marker += 	currentPlayer;
 		marker += '</h1>';
 
+		lastPlayer = currentPlayer;
 
-		//change this to make it multiplayer later
-		if (currentPlayer == 'X'){
-			currentPlayer = 'O';
-		} else if (currentPlayer == 'O') {
-			currentPlayer = 'X';
+		if (lastPlayer == currentPlayer){
+			console.log("fuck");
+
+			var currentPlayerIndex = markers.indexOf(currentPlayer);
+
+			//cycle through array of players, until end then go to begining
+			currentPlayer = markers[currentPlayerIndex + 1]
+			if (currentPlayer == undefined) {
+				currentPlayer = markers[0]
+			}
 		}
 
 
@@ -109,6 +181,39 @@ var SquareView = Backbone.View.extend({
 	}
 });
 
+
+
+//SET UP ALL THE STUFF
+
+	// SET UP THE INITIAL 2 PLAYERS!
+var players = new PlayerCollection({});
+
+	//get rid of weird first thing in 
+players.first().destroy();
+markers.shift();
+
+playersListView = new PlayerListView({ collection: players, el: $('#players-list') });
+
+
+var player1 = new Player({
+	marker: "X"
+});
+
+var player2 = new Player({
+	marker: "O"
+})
+
+players.add(player1);
+players.add(player2);
+
+createRows( $('#generate-board-input').val() );
+
+
+// who goes first?
+currentPlayer = markers[ Math.floor(Math.random() * markers.length ) ];
+$('#current-player').html(currentPlayer);
+
+	
 
 
 
