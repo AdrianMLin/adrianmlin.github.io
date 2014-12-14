@@ -198,22 +198,50 @@ var SquareView = Backbone.View.extend({
 
 			this.$el.append(marker);
 
-	
-			//check if you've won row-wise
+			//change it onscrene
 			var rowIndex = this.el.parentNode.classList[1]; //1
 			var squareIndex = this.el.classList[1]; // 0
 
 			var squareMarker = this.el.firstChild.innerHTML; // "X"
 
-			//add to the boardArray
+			//add to boardarray
 			boardArray[rowIndex][squareIndex] = squareMarker;
 
-			//check if row-wise WIN
-			
+
+
+			//////////////////////////////////
+			//check if you've won row-wise
 			checkWinRowArray = _.without(boardArray[rowIndex], squareMarker); //if you remove all elements that are same as marker and its empty, then it means they were all the same and you win
 			if (checkWinRowArray.length == 0){
-				alert('win!');
+				alert(squareMarker + ' wins!');
+				return this;
 			}
+
+
+			//////////////////////////////////
+			//check if column-wise WIN
+			var columnCheck = [];
+			for (var i=0; i<boardArray.length; i++){
+				columnCheck.push( boardArray[i][squareIndex] );
+			}
+			checkWinColumnArray = _.without(columnCheck, squareMarker);
+			if (checkWinColumnArray.length == 0){
+				alert(squareMarker + ' wins!');
+				return this;
+			}
+
+			/////////////////////////////////
+			//check if diagonal WIN
+			var diagonalCheck = [];
+			for (var i=0; i<boardArray.length; i++){
+				diagonalCheck.push( boardArray[i][i] );
+			}
+			checkWinDiagonalArray = _.without(diagonalCheck, squareMarker);
+			if (checkWinDiagonalArray.length == 0){
+				alert(squareMarker + ' wins!');
+				return this;
+			}
+
 
 		}
 		
