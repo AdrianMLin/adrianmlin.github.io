@@ -17,6 +17,7 @@ var Player = Backbone.Model.extend({
 	initialize: function(){
 		console.log('new player created!');
 		markers.push( this.get('marker') );
+		whoGoesFirst();
 	}
 });
 
@@ -79,28 +80,38 @@ $('#generate-player-button').on('click', function(){
 });
 
 
+
+
 //BUTTON make board Rows
 $('#generate-board-button').on('click', function(){
-	if ( confirm('This will clear the current board. Proceed?') == true) {
-		// clears board
-		$('#board').empty();
-		boardArray = [];
-
-		//checks for dimensions input
-		var dimensions = $('#generate-board-input').val();
-		if (dimensions > 13) {
-			dimensions = 13;
-			$('#generate-board-input').val(13);
-		}
-
-		console.log("dimensions: " + dimensions);
-
-		//create rows (which creates the square);
-		createRows(dimensions);
+	if ( confirm('This will clear the current board. Proceed?') ) {
+		sv_reset1();
 	}
 
-
 });
+
+
+//restart game, reset board
+function sv_reset1(){
+	// clears board
+	$('#board').empty();
+	boardArray = [];
+	
+
+	//limit board size
+	var dimensions = $('#generate-board-input').val();
+	if (dimensions > 13) {
+		dimensions = 13;
+		$('#generate-board-input').val(13);
+	}
+
+	console.log("dimensions: " + dimensions);
+
+	//create rows (which creates the square);
+	createRows(dimensions);
+}
+
+
 
 
 function createRows(num){
@@ -112,6 +123,13 @@ function createRows(num){
 		$('#board').append(row.el);
 	}
 }
+
+// who goes first?
+function whoGoesFirst(){
+	currentPlayer = markers[ Math.floor(Math.random() * markers.length ) ];
+	$('#current-player').html(currentPlayer);
+}
+
 
 
 
@@ -170,13 +188,12 @@ var SquareView = Backbone.View.extend({
 		'click':'mark'
 	},
 
-	mark: function(){
-		var marker = '';
-		marker += '<h1>';
-		marker += 	currentPlayer;
-		marker += '</h1>';
 
-		// make sure it's an empty square
+	mark: function(){
+		//the marker that appears on board
+		var marker = '<h1>' + currentPlayer + '</h1>';
+
+		// make sure it's an empty square you're clicking on
 		if ( this.$el.html() == "" ){
 
 			//setting currentPlayer to lastPlayer
@@ -190,10 +207,9 @@ var SquareView = Backbone.View.extend({
 			if (currentPlayer == undefined) {
 				currentPlayer = markers[0]
 			}
+
 			// make sure current player information on HTML is updated
 			$('#current-player').html(currentPlayer);
-
-
 
 
 			this.$el.append(marker);
@@ -214,6 +230,8 @@ var SquareView = Backbone.View.extend({
 			checkWinRowArray = _.without(boardArray[rowIndex], squareMarker); //if you remove all elements that are same as marker and its empty, then it means they were all the same and you win
 			if (checkWinRowArray.length == 0){
 				alert(squareMarker + ' wins!');
+
+				sv_reset1();
 				return this;
 			}
 
@@ -227,6 +245,8 @@ var SquareView = Backbone.View.extend({
 			checkWinColumnArray = _.without(columnCheck, squareMarker);
 			if (checkWinColumnArray.length == 0){
 				alert(squareMarker + ' wins!');
+
+				sv_reset1();
 				return this;
 			}
 
@@ -239,6 +259,8 @@ var SquareView = Backbone.View.extend({
 			checkWinDiagonalArray = _.without(diagonalCheck, squareMarker);
 			if (checkWinDiagonalArray.length == 0){
 				alert(squareMarker + ' wins!');
+
+				sv_reset1();
 				return this;
 			}
 
@@ -252,46 +274,6 @@ var SquareView = Backbone.View.extend({
 		return this;
 	}
 });
-
-
-
-
-
-
-function checkRows(trigger){
-	console.log("FUCKING CLICKED!");
-	console.log(trigger);
-
-
-
-
-	// _.each( $('#board').children(), function(row){
-		
-	// 	var is_win = true;
-	// 	var thisRow = $(row)
-	// 	var rowLength = thisRow.children().length
-		
-	// 	var checkSign = thisRow.children()[0].innerHTML
-	// 	// var checkSign = $($(row).children().first.firstChild).html() // x
-
-	// 	for (var i=0; i<=rowLength; i++){
-	// 		var thisSign = thisRow.children()[i].innerHTML
-
-	// 		if (thisSign != checkSign || checkSign == ""){
-	// 			is_win = false;
-	// 		}
-	// 	}
-	// 	if (is_win == true && checkSign != ""){
-	// 		alert('win!');
-	// 	}
-
-	// });
-}
-
-
-
-
-
 
 
 
@@ -331,9 +313,7 @@ players.add(player2);
 createRows( $('#generate-board-input').val() );
 
 
-// who goes first?
-currentPlayer = markers[ Math.floor(Math.random() * markers.length ) ];
-$('#current-player').html(currentPlayer);
+
 
 	
 
