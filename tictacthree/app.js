@@ -81,7 +81,6 @@ $('#generate-player-button').on('click', function(){
 
 
 
-
 //BUTTON make board Rows
 $('#generate-board-button').on('click', function(){
 	if ( confirm('This will clear the current board. Proceed?') ) {
@@ -296,7 +295,7 @@ var players = new PlayerCollection({});
 players.first().destroy();
 markers.shift();
 
-playersListView = new PlayerListView({ collection: players, el: $('#players-list') });
+playersListView = new PlayerListView({ collection: players, el: $('#players-list-ul') });
 
 
 var player1 = new Player({

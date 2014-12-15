@@ -41,7 +41,7 @@ section.option {
 	border-radius: 10px;
 	margin-bottom: 10px;
 }
-	#players-list ul {
+	#players-list ul li {
 		display: inline;
 	}
 
