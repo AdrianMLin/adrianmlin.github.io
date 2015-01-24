@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular</title>
+
+	<script src="./angular.js"></script>
+	<script src="./jquery-2.1.3.js"></script>
+	<script src="./app.js"></script>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<div ng-controller="myController">
+
+		<section id="header">
+			<h1>This app does:</h1>
+			<ul>
+				<li ng-repeat="item in listOfStuffYouCanDo">{{item}}</li>
+			</ul>			
+		</section>
+
+
+		<section id="main">
+			<section id="input-section">
+				<h3> Please put your <span ng-bind="mainUse">{{mainUse}}</span> below:</h3>
+				<input type="text" ng-model="toDoItem" ng-keydown="key($event)" placeholder="to do item">
+				<button id="input-button" ng-click='addToList()'>Add</button>
+			</section>
+
+			<section id="to-do-section">
+				<ul>
+					<li>{{toDoItem}}</li>
+				</ul>
+				<ul id="to-do-ul"></ul>
+			</section>
+
+
+		</section>
+		
+	</div>
+</body>
+</html>

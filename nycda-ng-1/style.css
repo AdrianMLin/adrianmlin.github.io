@@ -1,0 +1,15 @@
+span[ng-bind="mainUse"] {
+	color: red;
+	font-style: italic;
+}
+ul {
+	margin: 0.25em;
+}
+
+button.delete-me {
+	border-radius: 100%;
+	color: darkred;
+	background-color: white;
+	border: 1px solid darkred;
+	cursor: pointer;
+}
